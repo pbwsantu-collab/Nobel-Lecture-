@@ -1,10 +1,1 @@
-const LB={T:'Textual fact',H:'Historical context',I:'Critical interpretation',R:'Religious viewpoint'};
-const item=x=>`<div class="c"><span class="tag">${LB[x.L]}</span> <b>${x.h}</b><p>${x.t}</p>${x.bn?`<div class="bn">${x.bn}</div>`:''}</div>`;
-V.study=()=>{app.innerHTML='<div class="grid">'+STUDY.map(s=>`<button onclick="go('sec','${s.id}')">${s.i} ${s.title}</button>`).join('')+`<button onclick="go('qa')">❓ Questions</button><button onclick="go('rev')">⚡ Revision</button></div>`};
-V.sec=id=>{const s=STUDY.find(x=>x.id==id);app.innerHTML=`<h3>${s.i} ${s.title}</h3>`+s.items.map(item).join('')};
-V.qa=()=>{S.qa=S.qa||[];app.innerHTML='<h3>Questions (no MCQs)</h3>'+QA.map((x,i)=>`<div class="c"><b>${x.q}</b> <span class="tag">${x.m} marks</span><br><button class="b" onclick="this.nextElementSibling.hidden^=1;if(!S.qa.includes(${i})){S.qa.push(${i});save()}">Show answer</button><div hidden><p>${x.a}</p><div class="bn">বাংলায় সহজ ব্যাখ্যা: ${x.bn}</div><p><i>Key points: ${x.k}</i></p><button class="b" onclick="bm('q:${i}')">🔖</button></div></div>`).join('')};
-V.rev=()=>{app.innerHTML='<h3>Quick Revision</h3>'+STUDY.map(s=>`<div class="c"><b>${s.i} ${s.title}</b>`+s.items.map(x=>`<p>• ${x.h}</p>`).join('')+'</div>').join('')};
-const _m=V.more;V.more=()=>{_m();app.innerHTML+='<div class="grid" style="margin-top:10px"><button onclick="go(\'study\')">📚 Study Guide</button><button onclick="go(\'qa\')">❓ Questions</button></div>'};
-const _h=V.home;V.home=()=>{_h();app.innerHTML+='<div class="grid" style="margin-top:10px"><button onclick="go(\'study\')">📚 Author, Background, Analysis, Themes</button><button onclick="go(\'qa\')">❓ Questions</button></div>'};
-const _p=V.prog;V.prog=()=>{_p();app.innerHTML+=`<div class="c">Questions studied: ${(S.qa||[]).length}/${QA.length}</div>`};
-go('home');
+PLACEHOLDER
