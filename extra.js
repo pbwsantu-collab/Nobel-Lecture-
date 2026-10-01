@@ -1,1 +1,92 @@
-PLACEHOLDER
+const LB={T:'Textual fact',H:'Historical context',I:'Critical interpretation',R:'Religious viewpoint'};
+const item=x=>`<div class="c"><span class="tag">${LB[x.L]}</span> <b>${x.h}</b><p>${x.t}</p>${x.bn?`<div class="bn">${x.bn}</div>`:''}</div>`;
+V.study=()=>{app.innerHTML='<div class="grid">'+STUDY.map(s=>`<button onclick="go('sec','${s.id}')">${s.i} ${s.title}</button>`).join('')+`<button onclick="go('qa')">❓ Questions</button><button onclick="go('rev')">⚡ Revision</button></div>`};
+V.sec=id=>{const s=STUDY.find(x=>x.id==id);app.innerHTML=`<h3>${s.i} ${s.title}</h3>`+s.items.map(item).join('')};
+V.qa=()=>{S.qa=S.qa||[];app.innerHTML='<h3>Questions (no MCQs)</h3>'+QA.map((x,i)=>`<div class="c"><b>${x.q}</b> <span class="tag">${x.m} marks</span><br><button class="b" onclick="this.nextElementSibling.hidden^=1;if(!S.qa.includes(${i})){S.qa.push(${i});save()}">Show answer</button><div hidden><p>${x.a}</p><div class="bn">বাংলায় সহজ ব্যাখ্যা: ${x.bn}</div><p><i>Key points: ${x.k}</i></p><button class="b" onclick="bm('q:${i}')">🔖</button></div></div>`).join('')};
+V.rev=()=>{app.innerHTML='<h3>Quick Revision</h3>'+STUDY.map(s=>`<div class="c"><b>${s.i} ${s.title}</b>`+s.items.map(x=>`<p>• ${x.h}</p>`).join('')+'</div>').join('')};
+const _m=V.more;V.more=()=>{_m();app.innerHTML+='<div class="grid" style="margin-top:10px"><button onclick="go(\'study\')">📚 Study Guide</button><button onclick="go(\'qa\')">❓ Questions</button></div>'};
+const _h=V.home;V.home=()=>{_h();app.innerHTML+='<div class="grid" style="margin-top:10px"><button onclick="go(\'study\')">📚 Author, Background, Analysis, Themes</button><button onclick="go(\'qa\')">❓ Questions</button></div>'};
+const _p=V.prog;V.prog=()=>{_p();app.innerHTML+=`<div class="c">Questions studied: ${(S.qa||[]).length}/${QA.length}</div>`};
+go('home');
+
+// Expanded dictionary – key vocabulary with Bengali meanings (helps reach ~60% coverage of important words)
+if(typeof DICT==='undefined') window.DICT={};
+Object.assign(DICT, {
+  love: ['/lʌv/','noun/verb','strong feeling of affection','ভালোবাসা','লাভ','Love one another.'],
+  peace: ['/piːs/','noun','freedom from war or disturbance','শান্তি','পিস','We want peace of heart.'],
+  poor: ['/pʊə/','adjective','having little money','গরিব','পুয়র','Jesus came to the poor.'],
+  hunger: ['/ˈhʌŋɡə/','noun','need for food; desire','ক্ষুধা','হাঙ্গার','Hunger for love.'],
+  smile: ['/smaɪl/','noun/verb','happy expression','হাসি','স্মাইল','Even the dying smile.'],
+  family: ['/ˈfæməli/','noun','parents and children','পরিবার','ফ্যামিলি','Peace begins in the family.'],
+  abortion: ['/əˈbɔːʃn/','noun','deliberate ending of pregnancy','গর্ভপাত','অ্যাবরশন','Greatest destroyer of peace.'],
+  neglect: ['/nɪˈɡlekt/','noun/verb','failure to care','অবহেলা','নেগলেক্ট','Neglect of the elderly.'],
+  lonely: ['/ˈləʊnli/','adjective','sad because alone','একাকী','লোনলি','Feeling lonely.'],
+  unwanted: ['/ʌnˈwɒntɪd/','adjective','not wanted','অবাঞ্ছিত','আনওয়ান্টেড','The unwanted child.'],
+  compassion: ['/kəmˈpæʃn/','noun','sympathy for others','সহানুভূতি','কমপ্যাশন','Great compassion.'],
+  humility: ['/hjuːˈmɪləti/','noun','modesty','নম্রতা','হিউমিলিটি','Symbol of humility.'],
+  prayer: ['/preə/','noun','words to God','প্রার্থনা','প্রেয়ার','Prayer of St. Francis.'],
+  dignity: ['/ˈdɪɡnəti/','noun','self-respect','মর্যাদা','ডিগনিটি','Dignity in every life.'],
+  kindness: ['/ˈkaɪndnəs/','noun','being kind','দয়া','কাইন্ডনেস','Small acts of kindness.'],
+  destitute: ['/ˈdestɪtjuːt/','adjective','extremely poor','অত্যন্ত দরিদ্র','ডেস্টিটিউট','Poor and destitute.'],
+  missionary: ['/ˈmɪʃənri/','noun','person who spreads religion','মিশনারি','মিশনারি','Roman Catholic missionary.'],
+  charity: ['/ˈtʃærəti/','noun','help for the needy','দান / চ্যারিটি','চ্যারিটি','Missionaries of Charity.'],
+  recognition: ['/ˌrekəɡˈnɪʃn/','noun','acknowledgement','স্বীকৃতি','রেকগনিশন','Worldwide recognition.'],
+  canonized: ['/ˈkænənaɪzd/','verb','declared a saint','সন্ত ঘোষিত','ক্যানোনাইজড','Canonized in 2016.'],
+  icon: ['/ˈaɪkɒn/','noun','symbol','প্রতীক','আইকন','Icon of love.'],
+  emphasized: ['/ˈemfəsaɪzd/','verb','gave special importance','জোর দিয়ে বলেছেন','এমফাসাইজড','Emphasized family love.'],
+  destroyers: ['/dɪˈstrɔɪəz/','noun','things that destroy','ধ্বংসকারী','ডিস্ট্রয়ার্স','Destroyers of peace.'],
+  quoted: ['/kwəʊtɪd/','verb','repeated words','উদ্ধৃত করেছেন','কোটেড','Quoted Jesus Christ.'],
+  urged: ['/ɜːdʒd/','verb','strongly advised','অনুরোধ করেছেন','আর্জড','Urged simple acts.'],
+  spirituality: ['/ˌspɪrɪtʃuˈæləti/','noun','spiritual quality','আধ্যাত্মিকতা','স্পিরিচুয়ালিটি','Deep spirituality.'],
+  timeless: ['/ˈtaɪmləs/','adjective','not affected by time','কালজয়ী','টাইমলেস','Timeless plea.'],
+  gathered: ['/ˈɡæðəd/','verb','came together','সমবেত হয়েছি','গ্যাদার্ড','We have gathered.'],
+  opportunity: ['/ˌɒpəˈtjuːnəti/','noun','good chance','সুযোগ','অপরচুনিটি','Thank God for the opportunity.'],
+  created: ['/kriˈeɪtɪd/','verb','made','সৃষ্টি করেছেন','ক্রিয়েটেড','Created to love.'],
+  proclaimed: ['/prəˈkleɪmd/','verb','announced','ঘোষণা করেছেন','প্রোক্লেইমড','Proclaimed the good news.'],
+  insisted: ['/ɪnˈsɪstɪd/','verb','said firmly','জোর দিয়ে বলেছেন','ইনসিস্টেড','Insisted that we love.'],
+  recognised: ['/ˈrekəɡnaɪzd/','verb','identified','চিনতে পেরেছিল','রেকগনাইজড','Recognised the Prince of Peace.'],
+  leapt: ['/lept/','verb','jumped','লাফিয়ে উঠল','লেপ্ট','Leapt with joy.'],
+  messenger: ['/ˈmesɪndʒə/','noun','message carrier','বার্তাবাহক','মেসেঞ্জার','First messenger of peace.'],
+  naked: ['/ˈneɪkɪd/','adjective','without clothes','উলঙ্গ','নেকেড','Naked person in the street.'],
+  forgotten: ['/fəˈɡɒtn/','adjective','not remembered','ভুলে যাওয়া','ফরগটেন','They are forgotten.'],
+  expecting: ['/ɪkˈspektɪŋ/','verb','waiting for','প্রত্যাশা করছে','এক্সপেক্টিং','Expecting a visit.'],
+  receive: ['/rɪˈsiːv/','verb','welcome; get','গ্রহণ করা','রিসিভ','No one to receive them.'],
+  drugs: ['/drʌɡz/','noun','harmful substances','নেশার দ্রব্য','ড্রাগস','Given into drugs.'],
+  busy: ['/ˈbɪzi/','adjective','occupied','ব্যস্ত','বিজি','Parents are so busy.'],
+  destroyer: ['/dɪˈstrɔɪə/','noun','one that destroys','ধ্বংসকারী','ডিস্ট্রয়ার','Greatest destroyer of peace.'],
+  scripture: ['/ˈskrɪptʃə/','noun','holy writings','ধর্মগ্রন্থ','স্ক্রিপচার','We read in the Scripture.'],
+  carved: ['/kɑːvd/','verb','cut into surface','খোদাই করা','কার্ভড','Carved in the palm of His hand.'],
+  deliberately: ['/dɪˈlɪbərətli/','adverb','on purpose','ইচ্ছাকৃতভাবে','ডেলিবারেটলি','Dying deliberately.'],
+  millions: ['/ˈmɪljənz/','noun','very large numbers','লক্ষ লক্ষ','মিলিয়নস','Millions are dying.'],
+  adoption: ['/əˈdɒpʃn/','noun','taking a child as own','দত্তক গ্রহণ','অ্যাডপশন','Fighting abortion by adoption.'],
+  clinics: ['/ˈklɪnɪks/','noun','medical centres','ক্লিনিক','ক্লিনিক্স','Sent to all the clinics.'],
+  unwedded: ['/ʌnˈwedɪd/','adjective','not married','অবিবাহিত','আনওয়েডেড','Unwedded mothers.'],
+  tremendous: ['/trəˈmendəs/','adjective','very great','প্রচুর','ট্রেমেন্ডাস','Tremendous demand.'],
+  blessing: ['/ˈblesɪŋ/','noun','God\'s favour','আশীর্বাদ','ব্লেসিং','Blessing of God.'],
+  beggars: ['/ˈbeɡəz/','noun','people who beg','ভিক্ষুক','বেগার্স','Teaching our beggars.'],
+  leprosy: ['/ˈleprəsi/','noun','skin disease','কুষ্ঠ','লেপ্রোসি','Leprosy patients.'],
+  slum: ['/slʌm/','noun','poor crowded area','বস্তি','স্লাম','Slum dwellers.'],
+  natural: ['/ˈnætʃrəl/','adjective','not artificial','প্রাকৃতিক','ন্যাচারাল','Natural family planning.'],
+  abstaining: ['/əbˈsteɪnɪŋ/','verb','holding back','বিরত থাকা','অ্যাবস্টেইনিং','Practise abstaining.'],
+  beautiful: ['/ˈbjuːtɪfl/','adjective','pleasing','সুন্দর','বিউটিফুল','It is very beautiful.'],
+  fitting: ['/ˈfɪtɪŋ/','adjective','suitable','উপযুক্ত','ফিটিং','Fitting for each one of us.'],
+  difficulties: ['/ˈdɪfɪkəltiz/','noun','problems','সমস্যা','ডিফিকাল্টিজ','Same difficulties.'],
+  reminds: ['/rɪˈmaɪndz/','verb','makes remember','মনে করিয়ে দেয়','রিমাইন্ডস','Reminds us.'],
+  cousin: ['/ˈkʌzn/','noun','child of uncle/aunt','খুড়তুতো / মামাতো','কাজিন','House of her cousin.'],
+  womb: ['/wuːm/','noun','uterus','গর্ভ','উম','Child in the womb.'],
+  realised: ['/ˈriːəlaɪzd/','verb','understood fully','উপলব্ধি করেছেন','রিয়ালাইজড','We must realise.'],
+  satisfy: ['/ˈsætɪsfaɪ/','verb','meet a need','তৃপ্ত করা','স্যাটিসফাই','Satisfy the hunger.'],
+  worried: ['/ˈwʌrid/','adjective','anxious','চিন্তিত','ওয়ারিড','Feeling worried.'],
+  institution: ['/ˌɪnstɪˈtjuːʃn/','noun','organisation','প্রতিষ্ঠান','ইনস্টিটিউশন','Put them in an institution.'],
+  hurt: ['/hɜːt/','verb/adjective','cause pain','আঘাত / কষ্ট','হার্ট','They are hurt.'],
+  child: ['/tʃaɪld/','noun','young human','শিশু','চাইল্ড','What have we done for the child?'],
+  wanted: ['/ˈwɒntɪd/','adjective','desired','কাঙ্ক্ষিত','ওয়ান্টেড','Make every child wanted.'],
+  terrifying: ['/ˈterɪfaɪɪŋ/','adjective','causing fear','ভয়ঙ্কর','টেরিফাইং','Something terrifying.'],
+  saved: ['/seɪvd/','verb','rescued','বাঁচিয়েছি','সেভড','We have saved thousands.'],
+  hospitals: ['/ˈhɒspɪtlz/','noun','medical places','হাসপাতাল','হসপিটালস','Hospitals, police stations.'],
+  demand: ['/dɪˈmɑːnd/','noun','strong request','চাহিদা','ডিমান্ড','Tremendous demand.'],
+  dwellers: ['/ˈdweləz/','noun','residents','বাসকারী','ডুয়েলার্স','Slum dwellers.'],
+  practise: ['/ˈpræktɪs/','verb','do regularly','অনুশীলন করা','প্র্যাকটিস','They practise this way.'],
+  babies: ['/ˈbeɪbiz/','noun','very young children','শিশু','বেবিজ','Babies less.']
+});
+console.log('DICT expanded, total entries:', Object.keys(DICT).length);
